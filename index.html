@@ -25,7 +25,7 @@
         <button class="card__btn" id="openBtn" aria-controls="page2" aria-expanded="false">Open Card</button>
       </div>
 
-      <!-- Back Face -->
+      <!-- Back Face (no 3D rotation; just shown/hidden) -->
       <div class="card__face card__face--back" id="page2" hidden>
         <div class="decoration"></div>
 
@@ -51,10 +51,16 @@
         <!-- Photo Gallery -->
         <div class="photo-gallery" aria-label="Photo slideshow">
           <div class="photo-container">
-            <img src="images/Bob_Lesley_I.jpg" alt="Dad Lesley and I" class="gallery-photo active">
-            <img src="images/Dad_And_I.jpg"       alt="Dad and me"          class="gallery-photo">
-            <img src="images/Dad_Pip_Me.jpg"      alt="Dad, brother and me" class="gallery-photo">
-            <img src="images/Dad_And_Me.jpg"      alt="Dad & I"             class="gallery-photo">
+            <!-- 1 & 2 are NO-CROP -->
+            <img src="images/Bob_Lesley_I.jpg" alt="Dad Lesley and I"
+                 class="gallery-photo active fit-contain">
+            <img src="images/Dad_And_I.jpg" alt="Dad and me"
+                 class="gallery-photo fit-contain">
+            <!-- These can stay as 'cover' (or add fit-contain too if you prefer) -->
+            <img src="images/Dad_Pip_Me.jpg" alt="Dad, brother and me"
+                 class="gallery-photo">
+            <img src="images/Dad_And_Me.jpg"  alt="Dad & I"
+                 class="gallery-photo">
           </div>
 
           <div class="gallery-controls" aria-label="Slideshow controls">
@@ -77,7 +83,7 @@
         <div class="memory-section">
           <div class="memory-title">
             <i class="fas fa-star"></i>
-            <span>Favorite Memories</span>
+            <span>Amazing Memories</span>
           </div>
           <p>Each of these photos represents a special moment we've shared together. I cherish every memory!</p>
         </div>
@@ -87,6 +93,6 @@
     </section>
   </main>
 
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>

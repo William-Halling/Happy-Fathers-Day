@@ -2,10 +2,8 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; }
 
-/* Respect the HTML hidden attribute */
-[hidden] {
-  display: none !important;
-}
+/* Ensure HTML hidden works reliably */
+[hidden] { display: none !important; }
 
 body {
   font-family: 'Open Sans', sans-serif;
@@ -21,7 +19,6 @@ body {
   width: 100%;
   max-width: 420px;
   height: 620px;
-  perspective: 1000px;
 }
 
 /* Card */
@@ -29,13 +26,10 @@ body {
   width: 100%;
   height: 100%;
   position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
   border-radius: 20px;
   overflow: hidden; /* keeps confetti inside */
 }
-
 
 /* Confetti container & pieces */
 .confetti-container {
@@ -43,13 +37,13 @@ body {
   inset: 0;
   pointer-events: none;
   overflow: hidden; /* clip pieces inside the card */
-  z-index: 5;
+  z-index: 9; /* above faces/decoration, below audio button */
 }
 
 .confetti {
   position: absolute;
   top: -20px;
-  /* size, color, border-radius, left, animation set inline via JS */
+  /* size, color, border-radius, left, animation set in JS */
 }
 
 @keyframes fallInCard {
@@ -77,11 +71,10 @@ body {
   color: white;
 }
 
-/* Back face styling without rotation (show directly when visible) */
 .card__face--back {
   background: linear-gradient(135deg, #4A00E0, #8E2DE2);
   color: white;
-  /* No rotation needed; hidden/visible controlled via JavaScript */
+  /* No rotation; visibility via [hidden] */
   overflow-y: auto;
   justify-content: space-between;
 }
@@ -115,7 +108,7 @@ body {
   font-size: 1.1rem;
   padding: 12px 25px;
   margin-top: 20px;
-  z-index: 6; /* above confetti */
+  z-index: 10; /* always clickable above confetti */
 }
 
 .card__btn:hover {
@@ -177,9 +170,10 @@ body {
   z-index: 2;
 }
 
+/* Taller photo box to avoid cutting heads */
 .photo-container {
   width: 100%;
-  height: 200px;
+  height: clamp(260px, 42vh, 420px); /* Taller, responsive */
   position: relative;
   overflow: hidden;
   border-radius: 10px;
@@ -187,19 +181,24 @@ body {
   border: 3px solid #FFD700;
 }
 
+/* Default = cover with slight upward bias */
 .gallery-photo {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: 50% 20%;
   opacity: 0;
   transition: opacity 1s ease-in-out;
   border-radius: 8px;
 }
+.gallery-photo.active { opacity: 1; }
 
-.gallery-photo.active {
-  opacity: 1;
+/* Force NO cropping (will letterbox/pillarbox as needed) */
+.gallery-photo.fit-contain {
+  object-fit: contain;
+  background: #00000020; /* faint backdrop behind bars; set to transparent if you prefer */
 }
 
 .gallery-controls {
@@ -222,7 +221,7 @@ body {
   align-items: center;
   font-size: 1.2rem;
   transition: all 0.3s;
-  z-index: 6; /* above confetti */
+  z-index: 10;
 }
 
 .gallery-btn:hover {
@@ -282,7 +281,7 @@ body {
   height: 40px;
   color: white;
   cursor: pointer;
-  z-index: 10; /* above everything */
+  z-index: 12; /* above confetti */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -301,31 +300,22 @@ body {
   100% { transform: translateY(0px); }
 }
 
-/* Responsive Design */
+/* Responsive tweaks */
 @media (max-width: 500px) {
   .card-wrapper { height: 580px; max-width: 350px; }
   .card__title { font-size: 2.2rem; }
   .card__message h2 { font-size: 1.5rem; }
   .card__message p  { font-size: 1rem; }
-  .photo-container   { height: 180px; }
-  .card__message     { padding: 15px; }
-  .card__face        { padding: 30px; }
+  .card__face       { padding: 30px; }
 }
 
 @media (max-width: 400px) {
   .card-wrapper { max-width: 320px; height: 560px; }
   .card__title  { font-size: 2rem; }
-  .photo-container { height: 160px; }
 }
 
 @media (max-width: 350px) {
   .card-wrapper { max-width: 300px; height: 540px; }
-  .photo-container { height: 140px; }
   .card__message   { padding: 12px; }
   .memory-section  { padding: 10px; }
-}
-
-@media (min-width: 1024px) {
-  .card-wrapper { max-width: 450px; height: 650px; }
-  .photo-container { height: 220px; }
 }
