@@ -188,18 +188,34 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 20%;
+  object-position: 50% 20%;   /* slight upward bias for faces */
   opacity: 0;
   transition: opacity 1s ease-in-out;
   border-radius: 8px;
 }
 .gallery-photo.active { opacity: 1; }
 
-/* Force NO cropping (will letterbox/pillarbox as needed) */
+
+
 .gallery-photo.fit-contain {
-  object-fit: contain;
-  background: #00000020; /* faint backdrop behind bars; set to transparent if you prefer */
+  object-fit: contain !important;
+  object-position: 50% 50% !important;   /* center the whole photo */
+  background: #00000020;                 /* change to transparent if preferred */
 }
+
+
+/* FORCE cover (in case a class was copied by mistake) */
+.gallery-photo.cover-fill {
+  object-fit: cover !important;
+  object-position: 50% 50% !important;  /* start centered */
+}
+
+
+/* Optional: nudge the crop up for cover images that need more headroom */
+.gallery-photo.focus-top {
+  object-position: 50% 15% !important;  /* lower number = shows more top */
+}
+
 
 .gallery-controls {
   display: flex;
