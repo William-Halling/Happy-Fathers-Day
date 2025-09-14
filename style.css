@@ -2,6 +2,11 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; }
 
+/* Respect the HTML hidden attribute */
+[hidden] {
+  display: none !important;
+}
+
 body {
   font-family: 'Open Sans', sans-serif;
   background: linear-gradient(135deg, #f0f8ff, #e6e6fa);
@@ -31,10 +36,6 @@ body {
   overflow: hidden; /* keeps confetti inside */
 }
 
-/* Flip the whole card when open */
-.card.is-open {
-  transform: rotateY(180deg);
-}
 
 /* Confetti container & pieces */
 .confetti-container {
@@ -76,10 +77,11 @@ body {
   color: white;
 }
 
+/* Back face styling without rotation (show directly when visible) */
 .card__face--back {
   background: linear-gradient(135deg, #4A00E0, #8E2DE2);
   color: white;
-  transform: rotateY(180deg);
+  /* No rotation needed; hidden/visible controlled via JavaScript */
   overflow-y: auto;
   justify-content: space-between;
 }

@@ -76,12 +76,12 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // --- Open/Close (buttons only) ---
-  if (openBtn && closeBtn && page1 && page2 && card) {
+  if (openBtn && closeBtn && page1 && page2) {
     openBtn.addEventListener('click', function (e) {
       e.stopPropagation();
+      // Simply hide the front and show the back without rotating the card
       page1.hidden = true;
       page2.hidden = false;
-      card.classList.add('is-open');         // flip whole card
       openBtn.setAttribute('aria-expanded', 'true');
       createConfetti();
       startPhotoRotation();
@@ -89,9 +89,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     closeBtn.addEventListener('click', function (e) {
       e.stopPropagation();
+      // Hide the back and reveal the front
       page2.hidden = true;
       page1.hidden = false;
-      card.classList.remove('is-open');      // flip back
       openBtn.setAttribute('aria-expanded', 'false');
       createConfetti();
       stopPhotoRotation();
