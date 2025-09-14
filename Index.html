@@ -3,49 +3,83 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Father’s Day Card</title>
+  <title>Father's Day Card</title>
   <link rel="stylesheet" href="styles.css" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <main class="card-wrapper" role="region" aria-label="Interactive Father’s Day Card">
+  <main class="card-wrapper" role="region" aria-label="Interactive Father's Day Card">
     <section class="card" aria-live="polite">
       <!-- Front Face -->
-      <div class="card__face card__face--front">
-        <h1 class="card__title">Happy Father’s Day 💙</h1>
-        <button class="card__btn" data-action="open">Open Card</button>
+      <div class="card__face card__face--front" id="page1">
+        <div class="decoration"></div>
+        <h1 class="card__title">Happy Father's Day 💙</h1>
+        <div class="heart">❤️</div>
+        <button class="card__btn" id="openBtn">Open Card</button>
+        <p class="instruction">(Click anywhere to open)</p>
       </div>
 
       <!-- Back Face -->
-      <div class="card__face card__face--back" hidden>
+      <div class="card__face card__face--back" id="page2" hidden>
+        <div class="decoration"></div>
+        <button class="audio-control" id="audioControl">
+          <i class="fas fa-volume-mute"></i>
+        </button>
+        
         <div class="card__message">
-          <h2>To Dad, Happy Father’s Day.</h2>
+          <h2>To Dad, Happy Father's Day.</h2>
           <p>
-            I want to thank you for every piece of advice, every quiet word of
-            encouragement, and every moment you’ve been there for me. Your
-            values and wisdom have shaped who I am, and I’m grateful beyond
-            words to call you my father.
+            I want to thank you for everything you've done for me over the years - for your guidance, support and always being there when I needed someone to talk to.
+            Your wisdom and values have helped shape who I am today, and I'm truly grateful for all the lessons you've taught me.
           </p>
-          <p>I may not always say it, but I’m proud to be your son.</p>
-          <p>With all my love,<br />Bill</p>
+          <p class="signature">With all my love,<br />Bill</p>
         </div>
-        <div class="slideshow">
-          <img
-            class="slideshow__img"
-            src="images/photo1.jpg"
-            alt="Memorable moment with Dad"
-          />
+
+        <!-- Photo Gallery -->
+        <div class="photo-gallery">
+          <div class="photo-container">
+            <img src="images/Bob_Lesley_I.jpg" alt="Dad Lesley and I" class="gallery-photo active">
+            <img src="images/Dad_And_I.jpg" alt="Dad and me" class="gallery-photo">
+            <img src="https://images.unsplash.com/photo-1612805149926-8593e7f6cbf4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=80" alt="Outdoor adventure" class="gallery-photo">
+            <img src="https://images.unsplash.com/photo-1618828665017-0b0428cbc8cb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=80" alt="Celebration" class="gallery-photo">
+          </div>
+          
+          <div class="gallery-controls">
+            <button class="gallery-btn" id="prevBtn">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="gallery-btn" id="nextBtn">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+          
+          <div class="gallery-dots">
+            <div class="gallery-dot active" data-index="0"></div>
+            <div class="gallery-dot" data-index="1"></div>
+            <div class="gallery-dot" data-index="2"></div>
+            <div class="gallery-dot" data-index="3"></div>
+          </div>
         </div>
-        <button class="card__btn" data-action="close">Back to Front</button>
+        
+        <div class="memory-section">
+          <div class="memory-title">
+            <i class="fas fa-star"></i>
+            <span>Favorite Memories</span>
+          </div>
+        </div>
+        
+        <button class="card__btn" id="closeBtn">Back to Front</button>
+        <p class="instruction">(Click anywhere to close)</p>
       </div>
     </section>
   </main>
 
-  <!-- Canvas Confetti -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.min.js"></script>
+  <audio id="backgroundMusic" loop>
+    <source src="https://assets.codepen.io/21542/happy-day.mp3" type="audio/mpeg">
+  </audio>
+
   <script src="script.js"></script>
 </body>
 </html>
