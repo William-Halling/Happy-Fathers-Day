@@ -4,66 +4,77 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Father's Day Card</title>
-  <!-- Fixed CSS reference to match your actual file name -->
+
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
   <main class="card-wrapper" role="region" aria-label="Interactive Father's Day Card">
     <section class="card" aria-live="polite">
+      <!-- Confetti stays inside this container -->
+      <div class="confetti-container" aria-hidden="true"></div>
+
       <!-- Front Face -->
       <div class="card__face card__face--front" id="page1">
         <div class="decoration"></div>
         <h1 class="card__title">Happy Father's Day 💙</h1>
         <div class="heart">❤️</div>
-        <button class="card__btn" id="openBtn">Open Card</button>
-        <p class="instruction">(Click anywhere to open)</p>
+        <button class="card__btn" id="openBtn" aria-controls="page2" aria-expanded="false">Open Card</button>
       </div>
 
       <!-- Back Face -->
       <div class="card__face card__face--back" id="page2" hidden>
         <div class="decoration"></div>
-        <button class="audio-control" id="audioControl">
+
+        <!-- Audio (optional) -->
+        <button class="audio-control" id="audioControl" aria-label="Toggle music">
           <i class="fas fa-volume-mute"></i>
         </button>
-        
+        <!-- Provide your own music file if you want background music -->
+        <audio id="backgroundMusic" loop preload="auto">
+          <!-- <source src="audio/your-music.mp3" type="audio/mpeg" /> -->
+        </audio>
+
         <div class="card__message">
           <h2>To Dad, Happy Father's Day.</h2>
           <p>
-            I want to thank you for everything you've done for me over the years - for your guidance, support and always being there when I needed someone to talk to.
-            Your wisdom and values have helped shape who I am today, and I'm truly grateful for all the lessons you've taught me.
+            I want to thank you for everything you've done for me over the years—your guidance,
+            support, and always being there when I needed someone to talk to. Your wisdom and
+            values have helped shape who I am today, and I'm truly grateful for all the lessons
+            you've taught me.
           </p>
           <p class="signature">With all my love,<br />Bill</p>
         </div>
 
         <!-- Photo Gallery -->
-        <div class="photo-gallery">
+        <div class="photo-gallery" aria-label="Photo slideshow">
           <div class="photo-container">
             <img src="images/Bob_Lesley_I.jpg" alt="Dad Lesley and I" class="gallery-photo active">
-            <img src="images/Dad_And_I.jpg" alt="Dad and me" class="gallery-photo">
-            <img src="images/Dad_Pip_Me.jpg" alt="Dad Brother me" class="gallery-photo">
-            <img src="images/Dad_And_Me.jpg" alt="Dad & I" class="gallery-photo">
-         </div>
-          
-          <div class="gallery-controls">
-            <button class="gallery-btn" id="prevBtn">
+            <img src="images/Dad_And_I.jpg"       alt="Dad and me"       class="gallery-photo">
+            <img src="images/Dad_Pip_Me.jpg"      alt="Dad, brother and me" class="gallery-photo">
+            <img src="images/Dad_And_Me.jpg"      alt="Dad & I"          class="gallery-photo">
+          </div>
+
+          <div class="gallery-controls" aria-label="Slideshow controls">
+            <button class="gallery-btn" id="prevBtn" aria-label="Previous photo">
               <i class="fas fa-chevron-left"></i>
             </button>
-            <button class="gallery-btn" id="nextBtn">
+            <button class="gallery-btn" id="nextBtn" aria-label="Next photo">
               <i class="fas fa-chevron-right"></i>
             </button>
           </div>
-          
-          <div class="gallery-dots">
-            <div class="gallery-dot active" data-index="0"></div>
-            <div class="gallery-dot" data-index="1"></div>
-            <div class="gallery-dot" data-index="2"></div>
-            <div class="gallery-dot" data-index="3"></div>
+
+          <div class="gallery-dots" role="tablist" aria-label="Slide navigation">
+            <div class="gallery-dot active" data-index="0" role="tab" aria-selected="true" aria-controls="slide-1"></div>
+            <div class="gallery-dot" data-index="1" role="tab" aria-selected="false" aria-controls="slide-2"></div>
+            <div class="gallery-dot" data-index="2" role="tab" aria-selected="false" aria-controls="slide-3"></div>
+            <div class="gallery-dot" data-index="3" role="tab" aria-selected="false" aria-controls="slide-4"></div>
           </div>
         </div>
-        
+
         <div class="memory-section">
           <div class="memory-title">
             <i class="fas fa-star"></i>
@@ -71,12 +82,12 @@
           </div>
           <p>Each of these photos represents a special moment we've shared together. I cherish every memory!</p>
         </div>
-        
-        <button class="card__btn" id="closeBtn">Back to Front</button>
-        <p class="instruction">(Click anywhere to close)</p>
+
+        <button class="card__btn" id="closeBtn" aria-controls="page1" aria-expanded="true">Back to Front</button>
       </div>
     </section>
   </main>
+
   <script src="script.js"></script>
 </body>
 </html>
