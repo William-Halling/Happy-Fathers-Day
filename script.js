@@ -120,6 +120,18 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+
+  document.querySelectorAll('.gallery-photo').forEach(img => {
+  const tag = () => {
+    if (!img.classList.contains('fit-contain') &&
+        !img.classList.contains('cover-fill')) {
+      const r = img.naturalWidth / img.naturalHeight;
+      if (r > 1.9) img.classList.add('fit-contain'); // show entire frame
+    }
+  };
+  if (img.complete) tag(); else img.addEventListener('load', tag, { once: true });
+});
+
   // Initialize first slide
   showPhoto(0);
 });
