@@ -1,15 +1,16 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const openBtn = document.getElementById('openBtn');
+  const openBtn  = document.getElementById('openBtn');
   const closeBtn = document.getElementById('closeBtn');
-  const page1 = document.getElementById('page1');
-  const page2 = document.getElementById('page2');
+  const page1    = document.getElementById('page1');
+  const page2    = document.getElementById('page2');
 
-  const audioControl = document.getElementById('audioControl');
+  const audioControl    = document.getElementById('audioControl');
   const backgroundMusic = document.getElementById('backgroundMusic');
 
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
-  const dots = document.querySelectorAll('.gallery-dot');
+
+  const dots   = document.querySelectorAll('.gallery-dot');
   const photos = document.querySelectorAll('.gallery-photo');
 
   const card = document.querySelector('.card');
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // --- Confetti inside the card only ---
   function createConfetti() {
+    if (!confettiContainer) return;
     const colors = ['#ff4d4d', '#ffeb3b', '#4caf50', '#2196f3', '#9c27b0', '#FF9800', '#00BCD4'];
     const pieces = 70;
 
@@ -27,49 +29,46 @@ document.addEventListener('DOMContentLoaded', function () {
       const confetti = document.createElement('div');
       confetti.className = 'confetti';
 
-      // In-card positioning
       confetti.style.left = Math.random() * 100 + '%';
       confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-      confetti.style.width = (8 + Math.random() * 12) + 'px';
+      confetti.style.width  = (8 + Math.random() * 12) + 'px';
       confetti.style.height = (8 + Math.random() * 12) + 'px';
       confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
 
       const duration = 3 + Math.random() * 5;
-      const delay = Math.random() * 1.5;
+      const delay    = Math.random() * 1.5;
 
       confetti.style.animation = `fallInCard ${duration}s linear ${delay}s forwards`;
-
       confettiContainer.appendChild(confetti);
 
       // Clean up
-      setTimeout(() => {
-        if (confetti.parentNode) confetti.remove();
-      }, (duration + delay + 0.2) * 1000);
+      setTimeout(() => { if (confetti.parentNode) confetti.remove(); }, (duration + delay + 0.25) * 1000);
     }
   }
 
   // --- Slideshow helpers ---
   function showPhoto(index) {
+    if (!photos.length) return;
     photos.forEach(p => p.classList.remove('active'));
     dots.forEach(d => d.classList.remove('active'));
     photos[index].classList.add('active');
-    dots[index].classList.add('active');
+    if (dots[index]) dots[index].classList.add('active');
     currentPhotoIndex = index;
   }
 
   function nextPhoto() {
-    const nextIndex = (currentPhotoIndex + 1) % photos.length;
-    showPhoto(nextIndex);
+    if (!photos.length) return;
+    showPhoto((currentPhotoIndex + 1) % photos.length);
   }
 
   function prevPhoto() {
-    const prevIndex = (currentPhotoIndex - 1 + photos.length) % photos.length;
-    showPhoto(prevIndex);
+    if (!photos.length) return;
+    showPhoto((currentPhotoIndex - 1 + photos.length) % photos.length);
   }
 
   function startPhotoRotation() {
     clearInterval(photoInterval);
-    photoInterval = setInterval(nextPhoto, 4000); // rotate every 4s
+    if (photos.length > 1) photoInterval = setInterval(nextPhoto, 4000);
   }
 
   function stopPhotoRotation() {
@@ -77,57 +76,51 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // --- Open/Close (buttons only) ---
-  openBtn.addEventListener('click', function (e) {
-    e.stopPropagation();
-    page1.hidden = true;
-    page2.hidden = false;
-    openBtn.setAttribute('aria-expanded', 'true');
-    createConfetti();
-    startPhotoRotation();
-  });
+  if (openBtn && closeBtn && page1 && page2 && card) {
+    openBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      page1.hidden = true;
+      page2.hidden = false;
+      card.classList.add('is-open');         // flip whole card
+      openBtn.setAttribute('aria-expanded', 'true');
+      createConfetti();
+      startPhotoRotation();
+    });
 
-  closeBtn.addEventListener('click', function (e) {
-    e.stopPropagation();
-    page2.hidden = true;
-    page1.hidden = false;
-    openBtn.setAttribute('aria-expanded', 'false');
-    createConfetti();
-    stopPhotoRotation();
-  });
+    closeBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      page2.hidden = true;
+      page1.hidden = false;
+      card.classList.remove('is-open');      // flip back
+      openBtn.setAttribute('aria-expanded', 'false');
+      createConfetti();
+      stopPhotoRotation();
+    });
+  }
 
-  // Remove the old “click anywhere” behavior if it existed
-  // (You had a card click listener before—now we don't attach one.)
-
-  // --- Audio control ---
+  // --- Audio control (optional) ---
   if (audioControl && backgroundMusic) {
     audioControl.addEventListener('click', function (e) {
       e.stopPropagation();
       if (backgroundMusic.paused) {
-        backgroundMusic.play().catch(() => {/* autoplay may be blocked until user interacts */});
-        this.innerHTML = '<i class="fas fa-volume-up"></i>';
+        backgroundMusic.play().catch(()=>{ /* autoplay may be blocked until user clicks */ });
+        audioControl.innerHTML = '<i class="fas fa-volume-up"></i>';
       } else {
         backgroundMusic.pause();
-        this.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        audioControl.innerHTML = '<i class="fas fa-volume-mute"></i>';
       }
     });
   }
 
   // --- Gallery controls ---
-  nextBtn.addEventListener('click', function (e) {
-    e.stopPropagation();
-    nextPhoto();
-  });
-
-  prevBtn.addEventListener('click', function (e) {
-    e.stopPropagation();
-    prevPhoto();
-  });
+  if (nextBtn) nextBtn.addEventListener('click', function (e) { e.stopPropagation(); nextPhoto(); });
+  if (prevBtn) prevBtn.addEventListener('click', function (e) { e.stopPropagation(); prevPhoto(); });
 
   dots.forEach(dot => {
     dot.addEventListener('click', function (e) {
       e.stopPropagation();
-      const index = parseInt(this.getAttribute('data-index'));
-      showPhoto(index);
+      const index = parseInt(this.getAttribute('data-index'), 10);
+      if (!Number.isNaN(index)) showPhoto(index);
     });
   });
 

@@ -31,21 +31,24 @@ body {
   overflow: hidden; /* keeps confetti inside */
 }
 
+/* Flip the whole card when open */
+.card.is-open {
+  transform: rotateY(180deg);
+}
+
 /* Confetti container & pieces */
 .confetti-container {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  overflow: hidden; /* extra safety to clip confetti inside card */
+  overflow: hidden; /* clip pieces inside the card */
   z-index: 5;
 }
 
 .confetti {
   position: absolute;
   top: -20px;
-  opacity: 1;
-  will-change: transform, opacity;
-  /* Size, color, border-radius, left, and animation set inline via JS */
+  /* size, color, border-radius, left, animation set inline via JS */
 }
 
 @keyframes fallInCard {
@@ -65,6 +68,7 @@ body {
   padding: 40px;
   text-align: center;
   overflow: hidden;
+  z-index: 2; /* under confetti but above decoration */
 }
 
 .card__face--front {
@@ -109,7 +113,7 @@ body {
   font-size: 1.1rem;
   padding: 12px 25px;
   margin-top: 20px;
-  z-index: 2;
+  z-index: 6; /* above confetti */
 }
 
 .card__btn:hover {
@@ -216,6 +220,7 @@ body {
   align-items: center;
   font-size: 1.2rem;
   transition: all 0.3s;
+  z-index: 6; /* above confetti */
 }
 
 .gallery-btn:hover {
@@ -275,13 +280,13 @@ body {
   height: 40px;
   color: white;
   cursor: pointer;
-  z-index: 10;
+  z-index: 10; /* above everything */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* Animations */
+/* Cute animations */
 @keyframes pulse {
   0% { transform: scale(1); }
   50% { transform: scale(1.15); }
