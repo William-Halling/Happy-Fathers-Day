@@ -1,8 +1,6 @@
 /* Reset & Base */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; }
-
-/* Ensure HTML hidden works reliably */
 [hidden] { display: none !important; }
 
 body {
@@ -14,43 +12,36 @@ body {
   padding: 20px;
 }
 
-/* Card Wrapper */
-.card-wrapper {
-  width: 100%;
-  max-width: 420px;
-  height: 620px;
-}
-
 /* Card */
+.card-wrapper { width: 100%; max-width: 420px; height: 620px; }
+
 .card {
   width: 100%;
   height: 100%;
   position: relative;
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
   border-radius: 20px;
-  overflow: hidden; /* keeps confetti inside */
+  overflow: hidden; /* keep confetti clipped inside */
 }
 
-/* Confetti container & pieces */
+/* Confetti (inside card) */
 .confetti-container {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  overflow: hidden; /* clip pieces inside the card */
-  z-index: 9; /* above faces/decoration, below audio button */
+  overflow: hidden;
+  z-index: 9; /* above faces/decoration, below buttons */
 }
-
 .confetti {
   position: absolute;
-  top: -20px;
-  /* size, color, border-radius, left, animation set in JS */
+  top: -20px; /* start slightly above the container */
 }
-
 @keyframes fallInCard {
   0%   { transform: translateY(-20px) rotate(0deg);   opacity: 1; }
   100% { transform: translateY(100%)  rotate(720deg); opacity: 0; }
 }
 
+/* Faces */
 .card__face {
   position: absolute;
   inset: 0;
@@ -63,18 +54,17 @@ body {
   padding: 40px;
   text-align: center;
   overflow: hidden;
-  z-index: 2; /* under confetti but above decoration */
+  z-index: 2; /* under confetti */
 }
 
 .card__face--front {
   background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-  color: white;
+  color: #fff;
 }
 
 .card__face--back {
   background: linear-gradient(135deg, #4A00E0, #8E2DE2);
-  color: white;
-  /* No rotation; visibility via [hidden] */
+  color: #fff;
   overflow-y: auto;
   justify-content: space-between;
 }
@@ -101,16 +91,15 @@ body {
   background: rgba(255, 255, 255, 0.3);
   border: 2px solid rgba(255, 255, 255, 0.5);
   border-radius: 30px;
-  color: white;
+  color: #fff;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s;
   font-size: 1.1rem;
   padding: 12px 25px;
   margin-top: 20px;
-  z-index: 10; /* always clickable above confetti */
+  z-index: 10; /* above confetti */
 }
-
 .card__btn:hover {
   background: rgba(255, 255, 255, 0.5);
   transform: scale(1.05);
@@ -128,20 +117,13 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.3);
   z-index: 2;
 }
-
 .card__message h2 {
   font-family: 'Playfair Display', serif;
   margin-bottom: 15px;
   color: #FFD700;
   font-size: 1.8rem;
 }
-
-.card__message p {
-  font-size: 1.1rem;
-  line-height: 1.7;
-  margin-bottom: 15px;
-}
-
+.card__message p { font-size: 1.1rem; line-height: 1.7; margin-bottom: 15px; }
 .signature {
   margin-top: 15px;
   font-style: italic;
@@ -162,7 +144,7 @@ body {
   background-size: 200px;
 }
 
-/* Photo Gallery */
+/* Gallery */
 .photo-gallery {
   width: 100%;
   margin: 15px 0;
@@ -170,10 +152,10 @@ body {
   z-index: 2;
 }
 
-/* Taller photo box to avoid cutting heads */
+/* Taller photo box */
 .photo-container {
   width: 100%;
-  height: clamp(260px, 42vh, 420px); /* Taller, responsive */
+  height: clamp(260px, 42vh, 420px);
   position: relative;
   overflow: hidden;
   border-radius: 10px;
@@ -181,56 +163,52 @@ body {
   border: 3px solid #FFD700;
 }
 
-/* Default = cover with slight upward bias */
+/* Default = fill frame, slight upward bias for faces */
 .gallery-photo {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 20%;   /* slight upward bias for faces */
+  object-position: 50% 20%;
   opacity: 0;
   transition: opacity 1s ease-in-out;
   border-radius: 8px;
 }
 .gallery-photo.active { opacity: 1; }
 
-
-
+/* NO CROP (used on images 1 & 2) */
 .gallery-photo.fit-contain {
   object-fit: contain !important;
-  object-position: 50% 50% !important;   /* center the whole photo */
-  background: #00000020;                 /* change to transparent if preferred */
+  object-position: 50% 50% !important;  /* center the whole image */
+  background: #00000020;                /* set to transparent if you dislike faint bars */
 }
 
-
-/* FORCE cover (in case a class was copied by mistake) */
+/* Force cover for others (3 & 4) */
 .gallery-photo.cover-fill {
   object-fit: cover !important;
-  object-position: 50% 50% !important;  /* start centered */
+  object-position: 50% 50% !important;
 }
 
-
-/* Optional: nudge the crop up for cover images that need more headroom */
+/* Nudge crop up for cover images that need more headroom */
 .gallery-photo.focus-top {
-  object-position: 50% 15% !important;  /* lower number = shows more top */
+  object-position: 50% 15% !important;  /* smaller value = shows more top */
 }
 
-
+/* Controls */
 .gallery-controls {
   display: flex;
   justify-content: center;
   gap: 10px;
   margin-top: 15px;
 }
-
 .gallery-btn {
   background: rgba(255, 255, 255, 0.3);
   border: none;
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  color: white;
+  color: #fff;
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -239,34 +217,18 @@ body {
   transition: all 0.3s;
   z-index: 10;
 }
-
 .gallery-btn:hover {
   background: rgba(255, 255, 255, 0.5);
   transform: scale(1.1);
 }
-
-.gallery-dots {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 10px;
-}
-
+.gallery-dots { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
 .gallery-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
-  cursor: pointer;
-  transition: all 0.3s;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5); cursor: pointer; transition: all 0.3s;
 }
+.gallery-dot.active { background: #fff; transform: scale(1.3); }
 
-.gallery-dot.active {
-  background: white;
-  transform: scale(1.3);
-}
-
-/* Memory Section */
+/* Memory */
 .memory-section {
   margin-top: 20px;
   padding: 15px;
@@ -275,7 +237,6 @@ body {
   text-align: left;
   z-index: 2;
 }
-
 .memory-title {
   font-size: 1.2rem;
   margin-bottom: 10px;
@@ -293,45 +254,29 @@ body {
   background: rgba(255, 255, 255, 0.2);
   border: none;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  color: white;
-  cursor: pointer;
-  z-index: 12; /* above confetti */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 40px; height: 40px;
+  color: #fff; cursor: pointer; z-index: 12;
+  display: flex; justify-content: center; align-items: center;
 }
 
-/* Cute animations */
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.15); }
-  100% { transform: scale(1); }
-}
-
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
-}
+/* Animations */
+@keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.15);} 100% {transform: scale(1);} }
+@keyframes float { 0% {transform: translateY(0);} 50% {transform: translateY(-10px);} 100% {transform: translateY(0);} }
 
 /* Responsive tweaks */
 @media (max-width: 500px) {
   .card-wrapper { height: 580px; max-width: 350px; }
-  .card__title { font-size: 2.2rem; }
+  .card__title   { font-size: 2.2rem; }
   .card__message h2 { font-size: 1.5rem; }
   .card__message p  { font-size: 1rem; }
-  .card__face       { padding: 30px; }
+  .card__face    { padding: 30px; }
 }
-
 @media (max-width: 400px) {
   .card-wrapper { max-width: 320px; height: 560px; }
   .card__title  { font-size: 2rem; }
 }
-
 @media (max-width: 350px) {
   .card-wrapper { max-width: 300px; height: 540px; }
-  .card__message   { padding: 12px; }
-  .memory-section  { padding: 10px; }
+  .card__message { padding: 12px; }
+  .memory-section { padding: 10px; }
 }
