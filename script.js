@@ -1,67 +1,75 @@
-// Flip the card and trigger confetti + sound
-function openCard() {
-  const card = document.getElementById('card');
-  card.classList.add('open');
+(() => {
+  const openBtn = document.getElementById('openBtn');
+  const closeBtn = document.getElementById('closeBtn');
+  const page1   = document.getElementById('page1');
+  const page2   = document.getElementById('page2');
+  const slideImg= document.getElementById('slideshow-image');
 
-  // Play flip sound
-  const flipSound = new Audio('sounds/flip.mp3');
-  flipSound.play();
 
-  // Random confetti palette
-  const palettes = [
-    ['#ff69b4', '#ffb6c1', '#fff0f5'],      // Warm & loving
-    ['#4682b4', '#2f4f4f', '#dcdcdc'],      // Classic dad
-    ['#ff4500', '#ffd700', '#00ff00']       // Bold celebration
+  const SLIDES = [
+    'images/photo1.jpg',
+    'images/photo2.jpg',
+    'images/photo3.jpg'
   ];
-  const randomPalette = palettes[Math.floor(Math.random() * palettes.length)];
+
+
+  const PALETTES = [
+    ['#ff69b4','#ffb6c1','#fff0f5'],
+    ['#4682b4','#2f4f4f','#dcdcdc'],
+    ['#ff4500','#ffd700','#00ff00']
+  ];
+
+
+  let currentSlide = 0;
+
+
+  function showInside() 
+  {
+    page1.classList.remove('active');
+    page2.classList.add('active');
+
+
+    setTimeout(() => 
+    {
+      const colors = PALETTES[Math.floor(Math.random()*PALETTES.length)];
+      confetti({
+        particleCount: 100,
+        spread: 80,
+        origin: { x: 0.5, y: 0.5 },
+        colors
+      });
+
+      
+    }, 300); // after fade in
+  }
+
+
+  function showFront() 
+  {
+    page2.classList.remove('active');
+    page1.classList.add('active');
+  }
+
+
+  function rotateSlides() 
+  {
+    slideImg.style.opacity = 0;
+
+    setTimeout(() => 
+    {
+      currentSlide = (currentSlide + 1) % SLIDES.length;
+      slideImg.src = SLIDES[currentSlide];
+      slideImg.style.opacity = 1;
+
+
+    }, 400);
+
+  }
+
+
+  openBtn.addEventListener('click', showInside);
+  closeBtn.addEventListener('click', showFront);
+  setInterval(rotateSlides, 4000);
 
   
-  // Trigger confetti burst
-  confetti({
-    particleCount: 100,
-    spread: 70,
-    origin: { y: 0.6 },
-    colors: randomPalette
-  });
-}
-
-// Time-based message
-const hour = new Date().getHours();
-const message = document.querySelector('.message');
-
-
-if (hour < 12) 
-{
-  message.textContent = "Good morning Dad! Wishing you a joyful Father's Day.";
-} 
-
-else if (hour < 18) 
-{
-  message.textContent = "Hope you're having a wonderful afternoon, Dad!";
-} 
-else
-{
-  message.textContent = "Good evening Dad! Sending love and gratitude your way.";
-}
-
-
-// Slideshow logic
-const images = [
-  'images/photo1.jpg',
-  'images/photo2.jpg',
-  'images/photo3.jpg'
-];
-
-
-let current = 0;
-const slideshow = document.getElementById('slideshow-image');
-
-
-setInterval(() => {
-  slideshow.style.opacity = 0;
-  setTimeout(() => {
-    current = (current + 1) % images.length;
-    slideshow.src = images[current];
-    slideshow.style.opacity = 1;
-  }, 500);
-}, 4000);
+})();

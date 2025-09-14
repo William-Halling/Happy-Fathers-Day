@@ -3,31 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Happy Father's Day 💙</title>
+  <title>Father’s Day Card</title>
   <link rel="stylesheet" href="styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Open+Sans&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap"
+    rel="stylesheet"
+  />
 </head>
 <body>
-  <div class="card-wrapper">
-    <div class="card" id="card">
-      <div class="card-face front">
-        <h1>Happy Father's Day 💙</h1>
-        <button onclick="openCard()">Open Card</button>
-        <div class="hearts">
-          <span>💖</span><span>💖</span><span>💖</span>
-        </div>
+  <main class="card-wrapper" role="region" aria-label="Interactive Father’s Day Card">
+    <section class="card" aria-live="polite">
+      <!-- Front Face -->
+      <div class="card__face card__face--front">
+        <h1 class="card__title">Happy Father’s Day 💙</h1>
+        <button class="card__btn" data-action="open">Open Card</button>
       </div>
-      <div class="card-face back">
-        <p class="message">
 
-        </p>
-        <div class="slideshow">
-          <img id="slideshow-image" src="images/photo1.jpg" alt="Dad moments" />
+      <!-- Back Face -->
+      <div class="card__face card__face--back" hidden>
+        <div class="card__message">
+          <h2>To Dad, Happy Father’s Day.</h2>
+          <p>
+            I want to thank you for every piece of advice, every quiet word of
+            encouragement, and every moment you’ve been there for me. Your
+            values and wisdom have shaped who I am, and I’m grateful beyond
+            words to call you my father.
+          </p>
+          <p>I may not always say it, but I’m proud to be your son.</p>
+          <p>With all my love,<br />Bill</p>
         </div>
+        <div class="slideshow">
+          <img
+            class="slideshow__img"
+            src="images/photo1.jpg"
+            alt="Memorable moment with Dad"
+          />
+        </div>
+        <button class="card__btn" data-action="close">Back to Front</button>
       </div>
-    </div>
-  </div>
-  <script src="script.js"></script>
+    </section>
+  </main>
+
+  <!-- Canvas Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

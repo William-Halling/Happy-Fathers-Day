@@ -1,139 +1,111 @@
-body 
+/* Reset & Base */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+
+
+body
 {
-    margin: 0;
-    font-family: 'Open Sans', sans-serif;
-    background: linear-gradient(135deg, #f0f8ff, #e6e6fa);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
+  font-family: 'Open Sans', sans-serif;
+  background: linear-gradient(135deg, #f0f8ff, #e6e6fa);
+  overflow: hidden;
 }
 
 
-.card-wrapper
+/* Full-screen pages */
+.page 
 {
-    perspective: 1200px;
-    width: 90vw;
-    max-width: 500px;
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s;
 }
 
 
-.card 
+.page.active 
 {
-    width: 100%;
-    height: 320px;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 1s ease-in-out;
+  opacity: 1; visibility: visible;
 }
 
 
-.card.open 
+/* Inner content wrapper */
+.page__inner 
 {
-    transform: rotateY(180deg);
+  width: 90vw; max-width: 500px;
+  padding: 2rem;
+  background: #ffffffdd;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.2);
+  text-align: center;
 }
 
 
-.card-face 
+/* Title on front */
+.page__title 
 {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 12px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    padding: 20px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem; margin-bottom: 2rem;
 }
 
 
-.front 
+/* Shared button style */
+.page__btn 
 {
-    background: #ffefd5;
-    font-family: 'Pacifico', cursive;
+  background-color: #4682b4;
+  color: #fff;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
 
-.back 
+.page__btn:hover 
 {
-    background: #fff;
-    transform: rotateY(180deg);
-    text-align: center;
+  background-color: #5a9bd4;
 }
 
 
-button 
+/* Inside message */
+.message h2
 {
-    background-color: #4682b4;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s;
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 1rem;
+  font-size: 1.75rem;
 }
 
 
-button:hover 
+.message p 
 {
-    background-color: #5a9bd4;
+  margin: 0.75rem 0;
+
+  line-height: 1.5;
 }
 
 
-.hearts span 
+/* Slideshow */
+.slideshow 
 {
-    font-size: 1.5rem;
-    animation: float 2s infinite ease-in-out;
-    margin: 0 5px;
-}
-
-@keyframes float 
-{
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+  margin: 1.5rem 0;
 }
 
 
 .slideshow img 
 {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    margin-top: 15px;
-    transition: opacity 1s ease-in-out;
+  width: 100%;
+  border-radius: 0.75rem;
+  transition: opacity 0.5s ease-in-out;
 }
 
 
-.message 
-{
-    font-size: 1.1rem;
-    margin-bottom: 15px;
-    font-family: 'Open Sans', sans-serif;
-}
-
-
+/* Responsive tweaks */
 @media (max-width: 600px) 
 {
-    .card 
-    {
-        height: 280px;
-    }
-
-
-    .message 
-    {
-        font-size: 1rem;
-    }
-
-
-    button 
-    {
-        font-size: 0.9rem;
-    }
+  .page__inner { padding: 1.5rem; }
+  .page__title { font-size: 2rem; }
+  .message h2 { font-size: 1.5rem; }
+  .message p, .page__btn { font-size: 0.9rem; }
 }
