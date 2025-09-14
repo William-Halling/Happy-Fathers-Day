@@ -198,8 +198,7 @@ body {
 /* Force NO cropping (will letterbox/pillarbox as needed) */
 .gallery-photo.fit-contain {
   object-fit: contain;
-  object-position: 50% 50% !important;  /* center vertically & horizontally */
-  background: transparent; /* faint backdrop behind bars; set to transparent if you prefer */
+  background: #00000020; /* faint backdrop behind bars; set to transparent if you prefer */
 }
 
 .gallery-controls {
